@@ -1,5 +1,7 @@
 package com.example.credit.credit;
 
+import com.example.credit.customer.Customer;
+
 import javax.persistence.*;
 
 @Entity(name="Credit")
@@ -40,10 +42,20 @@ public class Credit {
             nullable = false,
             columnDefinition = "TEXT"
     )
-    private int customerID;
+    private Long customerID;
 
-    public Credit(Long creditID, String creditName, double value, int customerID) {
+    @ManyToOne
+    @JoinColumn(name = "customerid", insertable = false, updatable = false)
+    private Customer customer;
+
+    public Credit(Long creditID, String creditName, double value, Long customerID) {
         this.creditID = creditID;
+        this.creditName = creditName;
+        this.value = value;
+        this.customerID = customerID;
+    }
+
+    public Credit(String creditName, double value, Long customerID) {
         this.creditName = creditName;
         this.value = value;
         this.customerID = customerID;
@@ -74,11 +86,18 @@ public class Credit {
         this.value = value;
     }
 
-    public int getCustomerID() {
+    public Long getCustomerID() {
         return customerID;
     }
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(Long customerID) {
         this.customerID = customerID;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override

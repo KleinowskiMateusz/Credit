@@ -2,9 +2,7 @@ package com.example.credit.customer;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,13 +22,11 @@ public class CustomerController {
         return customerService.getCustomers();
     }
 
-    @GetMapping("/add")
-    public List<Customer> addCustomers(){
-        customerService.addCustomer(new Customer("Olga", "Kwiatoń", "00114789632"));
-        return customerService.getCustomers();
+    @GetMapping("getCredits")
+    public void getCredits(){ customerService.getCredits();}
+
+    @PostMapping("/createCredit")
+    public Long createCredit(@RequestBody Borrower borrower){
+        return customerService.createCredit(borrower);
     }
-
-
-
-
 }

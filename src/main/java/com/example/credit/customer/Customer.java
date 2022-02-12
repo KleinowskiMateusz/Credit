@@ -1,6 +1,10 @@
 package com.example.credit.customer;
 
+import com.example.credit.credit.Credit;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name="Customer")
 @Table(
@@ -46,6 +50,10 @@ public class Customer {
             nullable = false
     )
     private String pesel;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<Credit> credits;
+
 
     public Customer(Long id, String firstName, String lastName, String pesel) {
         this.id = id;
@@ -93,11 +101,20 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", pesel='" + pesel + '\'' +
-                '}';
+        StringBuilder builder = new StringBuilder("");
+        builder.append("Customer{" + "id=" + id +
+                        ", firstName='" + firstName + '\'' +
+                        ", lastName='" + lastName + '\'' +
+                        ", pesel='" + pesel + '\'' +
+                        ", creditsID=[\n");
+        for (int i=0; i<credits.size(); i++){
+            builder.append(credits.get(i));
+            if (i+1 < credits.size()) {
+                builder.append("\n");
+            }
+        }
+        builder.append("]" + "}");
+
+        return builder.toString();
     }
 }
