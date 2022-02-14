@@ -1,40 +1,32 @@
 package com.example.credit.customer;
 
-import com.example.credit.customer.Customer;
+import com.example.credit.credit.Credit;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Borrower extends Customer {
-    private String creditName;
-    private double value;
+public class Borrower {
 
-    public Borrower(String firstName, String lastName, String pesel, String creditName, double value) {
-        super(firstName, lastName, pesel);
-        this.creditName = creditName;
-        this.value = value;
+    @JsonProperty("Customer")
+    private Customer customer;
+
+    @JsonProperty("Credit")
+    private Credit credit;
+
+    public Borrower(Customer customer, Credit credit) {
+        this.customer = customer;
+        this.credit = credit;
     }
 
-    public String getCreditName() {
-        return creditName;
+    public Customer getCustomer() {
+        return customer;
     }
-    public void setCreditName(String creditName) {
-        this.creditName = creditName;
-    }
-
-    public double getValue() {
-        return value;
-    }
-    public void setValue(double value) {
-        this.value = value;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    @Override
-    public String toString() {
-        return "Borrower{" +
-                "id=" + getId() +
-                ", firstName='" + getFirstName() + '\'' +
-                ", lastName='" + getLastName() + '\'' +
-                ", pesel='" + getPesel() + '\'' +
-                ", creditName='" + creditName + '\'' +
-                ", value=" + value +
-                '}';
+    public Credit getCredit() {
+        return credit;
+    }
+    public void setCredit(Credit credit) {
+        this.credit = credit;
     }
 }

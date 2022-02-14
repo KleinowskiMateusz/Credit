@@ -1,6 +1,7 @@
 package com.example.credit.customer;
 
 import com.example.credit.credit.Credit;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -106,11 +107,13 @@ public class Customer {
                         ", firstName='" + firstName + '\'' +
                         ", lastName='" + lastName + '\'' +
                         ", pesel='" + pesel + '\'' +
-                        ", creditsID=[\n");
-        for (int i=0; i<credits.size(); i++){
-            builder.append(credits.get(i));
-            if (i+1 < credits.size()) {
-                builder.append("\n");
+                        ", creditsID=[");
+        if (credits != null) {
+            for (int i = 0; i < credits.size(); i++) {
+                builder.append(credits.get(i));
+                if (i + 1 < credits.size()) {
+                    builder.append("\n");
+                }
             }
         }
         builder.append("]" + "}");

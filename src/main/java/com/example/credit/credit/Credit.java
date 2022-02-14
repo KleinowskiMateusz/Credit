@@ -61,6 +61,11 @@ public class Credit {
         this.customerID = customerID;
     }
 
+    public Credit(String creditName, double value) {
+        this.creditName = creditName;
+        this.value = value;
+    }
+
     public Credit() {
 
     }

@@ -1,7 +1,9 @@
 package com.example.credit.customer;
 
 
+import com.example.credit.credit.Credit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,16 +19,21 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+
+    // moje
     @GetMapping
-    public List<Customer> getCustomers(){
-        return customerService.getCustomers();
+    public ResponseEntity<List<Customer>> getCustomers(){
+        System.out.print(ResponseEntity.ok(customerService.getCustomers()));
+        return ResponseEntity.ok(customerService.getCustomers());
     }
 
+
+    //@JsonView(View.Summary.class)
     @GetMapping("getCredits")
-    public void getCredits(){ customerService.getCredits();}
+    public ResponseEntity<List<Credit>> getCredits(){ return customerService.getCredits();}
 
     @PostMapping("/createCredit")
     public Long createCredit(@RequestBody Borrower borrower){
-        return customerService.createCredit(borrower);
+       return customerService.createCredit(borrower);
     }
 }
