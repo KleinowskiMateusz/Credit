@@ -1,6 +1,7 @@
 package com.example.credit.credit;
 
 import com.example.credit.customer.Customer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -46,6 +47,7 @@ public class Credit {
 
     @ManyToOne
     @JoinColumn(name = "customerid", insertable = false, updatable = false)
+    @JsonIgnore
     private Customer customer;
 
     public Credit(Long creditID, String creditName, double value, Long customerID) {

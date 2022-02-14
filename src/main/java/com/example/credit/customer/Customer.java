@@ -1,10 +1,9 @@
 package com.example.credit.customer;
 
 import com.example.credit.credit.Credit;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="Customer")
