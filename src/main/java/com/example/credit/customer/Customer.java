@@ -51,8 +51,9 @@ public class Customer {
     )
     private String pesel;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<Credit> credits;
+    // niezgodne ze specyfikacją
+//    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = false)
+//    private List<Credit> credits;
 
 
     public Customer(Long id, String firstName, String lastName, String pesel) {
@@ -101,22 +102,11 @@ public class Customer {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder("");
-        builder.append("Customer{" + "id=" + id +
-                        ", firstName='" + firstName + '\'' +
-                        ", lastName='" + lastName + '\'' +
-                        ", pesel='" + pesel + '\'' +
-                        ", creditsID=[");
-        if (credits != null) {
-            for (int i = 0; i < credits.size(); i++) {
-                builder.append(credits.get(i));
-                if (i + 1 < credits.size()) {
-                    builder.append("\n");
-                }
-            }
-        }
-        builder.append("]" + "}");
-
-        return builder.toString();
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", pesel='" + pesel + '\'' +
+                '}';
     }
 }

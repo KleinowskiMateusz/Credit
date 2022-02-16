@@ -45,10 +45,11 @@ public class Credit {
     )
     private Long customerID;
 
-    @ManyToOne
-    @JoinColumn(name = "customerid", insertable = false, updatable = false)
-    @JsonIgnore
-    private Customer customer;
+    // niezgodne ze specyfikacją
+//    @ManyToOne
+//    @JoinColumn(name = "customerid", insertable = false, updatable = false)
+//    @JsonIgnore
+//    private Customer customer;
 
     public Credit(Long creditID, String creditName, double value, Long customerID) {
         this.creditID = creditID;
@@ -100,12 +101,12 @@ public class Credit {
         this.customerID = customerID;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
+//    public Customer getCustomer() {
+//        return customer;
+//    }
+//    public void setCustomer(Customer customer) {
+//        this.customer = customer;
+//    }
 
     @Override
     public String toString() {

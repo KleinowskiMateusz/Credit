@@ -28,7 +28,7 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    // dane klientów i kredytów są już połączone w klasie klienta (relacja 1-wiele)
+    // dane klientów i kredytów mogą być połączone w klasie klienta (relacja 1-wiele)
     // tworzonych jest wiele nowych obiektów ze względu na wymaganie ukrycia id
     // gdyby można było pokazać wszystkie pola encji nie trzebaby tworzyć klas toShow
     // ukrycie przez @JsonIgnore nic nie da, bo te pola są potrzebne w innych miejscach w programie
@@ -36,13 +36,17 @@ public class CustomerService {
     // tym bardziej, że w klasie Customer są referencje do wszytskich kredytów, nie trzebaby było tworzyć nowych obiektów
     public ResponseEntity<List<HashMap<String, ToShow>>> getCredits(){
         List<Credit> credits = creditRepository.findAll();
+        Optional<Customer> optionalCustomer;
         List<HashMap<String, ToShow>> toReturn = new ArrayList<>();
         HashMap<String, ToShow> currentCredit;
         for (int i=0; i<credits.size(); i++){
             currentCredit = new HashMap<>();
-            currentCredit.put("Customer", new CustomerToShow((credits.get(i).getCustomer())));
-            currentCredit.put("Credit", new CreditToShow((credits.get(i))));
-            toReturn.add(currentCredit);
+            optionalCustomer = customerRepository.findById(credits.get(i).getCustomerID());
+            if ( optionalCustomer.isPresent() ){
+                currentCredit.put("Customer", new CustomerToShow(optionalCustomer.get()));
+                currentCredit.put("Credit", new CreditToShow((credits.get(i))));
+                toReturn.add(currentCredit);
+            }
         }
         ResponseEntity<List<HashMap<String, ToShow>>> response = ResponseEntity.ok(toReturn);
         return response;
@@ -71,10 +75,15 @@ public class CustomerService {
         return true;
     }
 
-    public ResponseEntity<Customer> findCustomerByPesel(String pesel) {
+    public ResponseEntity<List<Customer>> searchCustomer(String pesel) {
         Optional<Customer> optionalCustomer = customerRepository.findCustomerByPesel(pesel);
-        if ( optionalCustomer.isPresent() ) return ResponseEntity.ok(optionalCustomer.get());
+        if ( optionalCustomer.isPresent() ) return ResponseEntity.ok(Arrays.asList(optionalCustomer.get()));
         else return ResponseEntity.notFound().build();
+    }
+
+    public ResponseEntity<List<Customer>> searchCustomer(List<Long> ids) {
+        List<Customer> foundCustomers = customerRepository.findAllById(ids);
+        return ResponseEntity.ok(foundCustomers);
     }
 
     public ResponseEntity<Long> createConsumer(Customer customer) {
@@ -84,18 +93,5 @@ public class CustomerService {
             customerRepository.save(customer);
             return ResponseEntity.ok(customer.getId());
         }
-    }
-
-    public ResponseEntity<List<Customer>> findCustomersById(List<Long> ids) {
-        ArrayList<Customer> customers = new ArrayList<>();
-        Optional<Customer> optionalCustomer;
-        System.out.print(ids);
-        for (int i=0; i<ids.size(); i++){
-            optionalCustomer = customerRepository.findById(ids.get(i));
-            if ( optionalCustomer.isPresent() ) {
-                customers.add(optionalCustomer.get());
-            }
-        }
-        return ResponseEntity.ok(customers);
     }
 }
