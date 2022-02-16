@@ -3,6 +3,7 @@ package com.example.credit.customer;
 import com.example.credit.credit.Credit;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+// wrapper dla kredytobiorcy i jego kredytu
 public class Borrower {
 
     @JsonProperty("Customer")

@@ -2,6 +2,8 @@ package com.example.credit.customer;
 
 import com.example.credit.abstractt.ToShow;
 
+// wrapper dla encji kredytobiorcy stworzony w celu ukrycia ID
+// posiada jedynie konstruktor kopiujący
 public class CustomerToShow extends ToShow {
 
     private final String firstName;

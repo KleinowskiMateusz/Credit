@@ -30,21 +30,20 @@ public class CustomerService {
 
     // dane klientów i kredytów mogą być połączone w klasie klienta (relacja 1-wiele)
     // tworzonych jest wiele nowych obiektów ze względu na wymaganie ukrycia id
-    // gdyby można było pokazać wszystkie pola encji nie trzebaby tworzyć klas toShow
+    // gdyby można było pokazać wszystkie pola encji nie trzebaby było tworzyć klas dziedziczących po toShow
     // ukrycie przez @JsonIgnore nic nie da, bo te pola są potrzebne w innych miejscach w programie
     // aby odpowiedz byla bardziej klarowna można zwracać klienta i wszystkie jego kredyty w postaci listy (redukcja nadmiarowych obiektow)
-    // tym bardziej, że w klasie Customer są referencje do wszytskich kredytów, nie trzebaby było tworzyć nowych obiektów
     public ResponseEntity<List<HashMap<String, ToShow>>> getCredits(){
         List<Credit> credits = creditRepository.findAll();
         Optional<Customer> optionalCustomer;
         List<HashMap<String, ToShow>> toReturn = new ArrayList<>();
         HashMap<String, ToShow> currentCredit;
-        for (int i=0; i<credits.size(); i++){
+        for (Credit credit : credits) {
             currentCredit = new HashMap<>();
-            optionalCustomer = customerRepository.findById(credits.get(i).getCustomerID());
-            if ( optionalCustomer.isPresent() ){
+            optionalCustomer = customerRepository.findById(credit.getCustomerID());
+            if (optionalCustomer.isPresent()) {
                 currentCredit.put("Customer", new CustomerToShow(optionalCustomer.get()));
-                currentCredit.put("Credit", new CreditToShow((credits.get(i))));
+                currentCredit.put("Credit", new CreditToShow(credit));
                 toReturn.add(currentCredit);
             }
         }
@@ -52,6 +51,8 @@ public class CustomerService {
         return response;
     }
 
+    // tworzy nowego kredytobiorce, jeżeli jego danych nie ma w bazie ( sprawdzam na podstawie peselu - jest unikalny )
+    // jeżeli dany pesel jest w bazie, ale dane się nie zgadzają, zwracam błąd
     public ResponseEntity<Long> createCredit(Borrower borrower){
         Optional<Customer> optionalCustomer = customerRepository.findCustomerByPesel(borrower.getCustomer().getPesel());
         if ( ! optionalCustomer.isPresent() ){
@@ -68,6 +69,7 @@ public class CustomerService {
         else return ResponseEntity.badRequest().build();
     }
 
+    // waliduje dane 2 kredytobiorców
     public boolean isCorrectData(Customer customer, Customer optionalCustomer){
         if ( !customer.getFirstName().equals(optionalCustomer.getFirstName())) return false;
         if ( !customer.getLastName().equals(optionalCustomer.getLastName())) return false;

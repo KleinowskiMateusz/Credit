@@ -1,11 +1,8 @@
 package com.example.credit.customer;
 
-import com.example.credit.credit.Credit;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
-import java.util.List;
 
+// aby usprawnić działanie aplikacji można dodać referencje do posiadanych kredytów
 @Entity(name="Customer")
 @Table(
         name = "customer",

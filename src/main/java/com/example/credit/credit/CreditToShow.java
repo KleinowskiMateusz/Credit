@@ -3,6 +3,8 @@ package com.example.credit.credit;
 import com.example.credit.abstractt.ToShow;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+// wrapper dla encji kredytu stworzony w celu ukrycia ID kredytobiorcy
+// posiada jedynie konstruktor kopiujący
 public class CreditToShow extends ToShow {
 
     @JsonProperty
