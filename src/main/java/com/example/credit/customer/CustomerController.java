@@ -33,7 +33,7 @@ public class CustomerController {
         return customerService.getCredits();
     }
 
-    // wszyscy kredytobiorcy wraz z informacjami
+    // id otrzymanego kredytu
     @PostMapping("/createCredit")
     public ResponseEntity<Long> createCredit(@RequestBody Borrower borrower){
        return customerService.createCredit(borrower);
@@ -51,7 +51,7 @@ public class CustomerController {
         return customerService.searchCustomer(ids);
     }
 
-    // dodanie kredytobiorcy do bazy
+    // id dodanego kredytobiorcy
     @PostMapping("/create")
     public ResponseEntity<Long> createCustomer(@RequestBody Customer customer){
         return customerService.createConsumer(customer);
